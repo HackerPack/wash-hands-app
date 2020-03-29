@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { Container, Content, H1 } from 'native-base';
-import { Text } from '@ui-kitten/components';
+import { Text, Button, Layout } from '@ui-kitten/components';
 import HistoryList from './History/HistoryList';
 import Spacer from './UI/Spacer';
 import * as Storage from '../persistence/storage';
+import {VIEWS} from '../index';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,6 +15,14 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  button: {
+    flex: 1,
+    margin: 8,
   },
 });
 
@@ -23,7 +33,7 @@ const extractTodaysTimeStamps = handWashEvents => {
       handWashEventDate => today === new Date(handWashEventDate.timestamp).toLocaleDateString(),
     );
 };
-const ScoreView = () => {
+const ScoreView = ({ navigate }) => {
   const [history, setHistory] = useState({ today: [], allHistory: [] });
 
   useEffect(() => {
@@ -45,6 +55,16 @@ const ScoreView = () => {
         <H1>Score: </H1>
         <Spacer size={10} />
         <Text> this is a test payload </Text>
+        <Layout style={styles.buttonGroup}>
+          <Button style={styles.button}>Share</Button>
+          <Button
+            style={styles.button}
+            status='basic'
+            onPress={() => navigate(VIEWS.HOME)}
+          >
+            Back to Home
+          </Button>
+        </Layout>
         <Spacer size={30} />
         <H1 style={{}}>Today</H1>
         <Spacer size={10} />
@@ -55,6 +75,10 @@ const ScoreView = () => {
       </Content>
     </Container>
   );
+};
+
+ScoreView.propTypes = {
+  navigate: PropTypes.func.isRequired,
 };
 
 export default ScoreView;

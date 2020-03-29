@@ -9,14 +9,23 @@ import {VIEWS} from '../index';
 const HomeView = ({ currentTimer, navigate }) => (
   <Layout style={styles.container}>
     <HomeTimer currentTimer={currentTimer} />
-    <Button
-      size='giant'
-      status='success'
-      style={styles.button}
-      onPress={() => navigate(VIEWS.WASHING)}
-    >
-      Wash!
-    </Button>
+    <Layout style={styles.button}>
+      <Button
+        size='giant'
+        status='success'
+        style={styles.washButton}
+        onPress={() => navigate(VIEWS.WASHING)}
+      >
+        Wash!
+      </Button>
+      <Button
+        size='giant'
+        status='basic'
+        onPress={() => navigate(VIEWS.SCORE)}
+      >
+        View Scores
+      </Button>
+    </Layout>
   </Layout>
 );
 
@@ -28,8 +37,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   button: {
-    marginBottom: 160,
+    marginBottom: 100,
     width: 332,
+  },
+  washButton: {
+    marginBottom: 40,
   }
 });
 

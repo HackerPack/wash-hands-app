@@ -28,7 +28,7 @@ const WashingView = ({ navigate }) => {
           <WashingTimer
             onAnimationComplete={() => {
               setCurrentState(STATES.COMPLETE);
-              navigate(VIEWS.HOME);
+              navigate(VIEWS.SCORE);
               recordHandWash();
             }} />
         }

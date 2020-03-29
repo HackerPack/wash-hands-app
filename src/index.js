@@ -15,6 +15,7 @@ import Routes from './routes/index';
 import Loading from './components/UI/Loading';
 import HomeView from './components/HomeView'
 import WashingView from './components/WashingView';
+import ScoreView from './components/ScoreView';
 import utils from './lib/utils';
 
 
@@ -76,6 +77,9 @@ class App extends React.Component {
                 }
                 {this.state.currentView === VIEWS.WASHING &&
                   <WashingView navigate={navigate} />
+                }
+                {this.state.currentView === VIEWS.SCORE &&
+                  <ScoreView navigate={navigate} />
                 }
               </Layout>
             </StyleProvider>
