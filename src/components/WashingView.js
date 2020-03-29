@@ -16,12 +16,6 @@ const STATES = {
 const WashingView = ({ navigate, resetTimer }) => {
   const [currentState, setCurrentState] = React.useState(STATES.INITIAL)
 
-  if (currentState === STATES.COMPLETE) {
-    navigate(VIEWS.HOME);
-    resetTimer();
-    return null;
-  }
-
   return (
     <Container style={styles.container}>
       <Content>
@@ -31,7 +25,11 @@ const WashingView = ({ navigate, resetTimer }) => {
         }
         {currentState === STATES.WASHING &&
           <WashingTimer
-            onAnimationComplete={() => setCurrentState(STATES.COMPLETE)} />
+            onAnimationComplete={() => {
+              setCurrentState(STATES.COMPLETE);
+              navigate(VIEWS.HOME);
+              resetTimer();
+            }} />
         }
       </Content>
     </Container>
