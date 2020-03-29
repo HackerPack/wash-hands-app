@@ -4,7 +4,7 @@ import {
 } from 'native-base';
 import Spacer from './UI/Spacer';
 
-const About = () => (
+const HomeView = () => (
   <Container>
     <Content padder>
       <Spacer size={30} />
@@ -13,4 +13,4 @@ const About = () => (
   </Container>
 );
 
-export default About;
+export default HomeView;

@@ -6,7 +6,6 @@ import AppConfig from '../constants/config';
 
 import { ArticlesForm, ArticlesList, ArticlesSingle } from '../containers';
 
-import AboutComponent from '../components/About';
 
 const Index = (
   <Stack hideNavBar>
@@ -18,14 +17,6 @@ const Index = (
         showLabel={false}
         {...DefaultProps.tabProps}
       >
-        <Stack
-          key="home"
-          title={AppConfig.appName}
-          icon={() => <Icon name="planet" {...DefaultProps.icons} />}
-          {...DefaultProps.navbarProps}
-        >
-          <Scene key="home" component={AboutComponent} />
-        </Stack>
 
         <Stack
           key="articlesList"

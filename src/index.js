@@ -11,6 +11,7 @@ import theme from '../native-base-theme/variables/commonColor';
 
 import Routes from './routes/index';
 import Loading from './components/UI/Loading';
+import HomeView from './components/HomeView'
 
 class App extends React.Component {
   constructor() {
@@ -36,9 +37,7 @@ class App extends React.Component {
         <Provider store={store}>
           <PersistGate loading={<Loading />} persistor={persistor}>
             <StyleProvider style={getTheme(theme)}>
-              <Router>
-                <Stack key="root">{Routes}</Stack>
-              </Router>
+              <HomeView />
             </StyleProvider>
           </PersistGate>
         </Provider>
