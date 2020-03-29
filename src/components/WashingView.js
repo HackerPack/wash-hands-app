@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Container, Content} from 'native-base';
 import {Text} from '@ui-kitten/components';
+import {StyleSheet} from 'react-native';
 import GetReadyTimer from './UI/GetReadyTimer'
 import WashingTimer from './UI/WashingTimer';
+import {VIEWS} from '../index';
 
 const STATES = {
   INITIAL: 'INITIAL',
@@ -10,8 +13,14 @@ const STATES = {
   COMPLETE: 'COMPLETE',
 }
 
-const WashingView = () => {
+const WashingView = ({ navigate, resetTimer }) => {
   const [currentState, setCurrentState] = React.useState(STATES.INITIAL)
+
+  if (currentState === STATES.COMPLETE) {
+    navigate(VIEWS.HOME);
+    resetTimer();
+    return null;
+  }
 
   return (
     <Container style={styles.container}>
@@ -24,20 +33,22 @@ const WashingView = () => {
           <WashingTimer
             onAnimationComplete={() => setCurrentState(STATES.COMPLETE)} />
         }
-        {currentState === STATES.COMPLETE &&
-          <Text category='h1'>DONE</Text>
-        }
       </Content>
     </Container>
   );
 };
 
-const styles ={
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     marginTop: 100,
-  }
-}
+  },
+});
+
+WashingView.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  resetTimer: PropTypes.func.isRequired,
+};
 
 export default WashingView;

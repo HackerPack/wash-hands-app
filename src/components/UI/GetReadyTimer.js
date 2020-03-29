@@ -4,13 +4,12 @@ import {Text} from '@ui-kitten/components';
 import { Easing } from 'react-native';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 import utils from '../../lib/utils'
+import timeConstants from '../../constants/timeConstants';
 
 const GetReadyTimer = ({ onAnimationComplete }) => {
-  const duration = 5000;
-
   return (
     <AnimatedCircularProgress
-      duration={duration}
+      duration={timeConstants.GET_READY_TIMER}
       size={200}
       width={10}
       fill={100}
@@ -23,7 +22,9 @@ const GetReadyTimer = ({ onAnimationComplete }) => {
         (fill) => (
           <>
             <Text category='s1'>Get ready in</Text>
-            <Text category='h1'>{utils.getTimeinSeconds(fill,duration)}</Text>
+            <Text category='h1'>
+              {utils.getTimeinSeconds(fill,timeConstants.GET_READY_TIMER)}
+            </Text>
             <Text category='s1'>seconds</Text>
           </>
         )
