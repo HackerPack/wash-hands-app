@@ -6,6 +6,7 @@ import {StyleSheet} from 'react-native';
 import GetReadyTimer from './UI/GetReadyTimer'
 import WashingTimer from './UI/WashingTimer';
 import {VIEWS} from '../index';
+import {getData, recordHandWash} from '../persistence/storage';
 
 const STATES = {
   INITIAL: 'INITIAL',
@@ -29,6 +30,7 @@ const WashingView = ({ navigate, resetTimer }) => {
               setCurrentState(STATES.COMPLETE);
               navigate(VIEWS.HOME);
               resetTimer();
+              recordHandWash();
             }} />
         }
       </Content>

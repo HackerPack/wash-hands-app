@@ -13,4 +13,4 @@ const devValues = {
   WASHING_TIMER: 5000,
 };
 
-export default prodValues;
+export default devValues;
