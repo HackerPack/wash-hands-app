@@ -6,7 +6,7 @@ import {StyleSheet} from 'react-native';
 import GetReadyTimer from './UI/GetReadyTimer'
 import WashingTimer from './UI/WashingTimer';
 import {VIEWS} from '../index';
-import {getData, recordHandWash} from '../persistence/storage';
+import {recordHandWash} from '../persistence/storage';
 
 const STATES = {
   INITIAL: 'INITIAL',
@@ -14,7 +14,7 @@ const STATES = {
   COMPLETE: 'COMPLETE',
 }
 
-const WashingView = ({ navigate, resetTimer }) => {
+const WashingView = ({ navigate }) => {
   const [currentState, setCurrentState] = React.useState(STATES.INITIAL)
 
   return (
@@ -29,7 +29,6 @@ const WashingView = ({ navigate, resetTimer }) => {
             onAnimationComplete={() => {
               setCurrentState(STATES.COMPLETE);
               navigate(VIEWS.HOME);
-              resetTimer();
               recordHandWash();
             }} />
         }
@@ -48,7 +47,6 @@ const styles = StyleSheet.create({
 
 WashingView.propTypes = {
   navigate: PropTypes.func.isRequired,
-  resetTimer: PropTypes.func.isRequired,
 };
 
 export default WashingView;

@@ -10,11 +10,12 @@ const HomeTimer = ({ currentTimer }) => {
   const color = currentTimer > timeConstants.HOME_WARNING_TIMER
     ? 'success'
     : (currentTimer > 0 ? 'warning' : 'danger');
+  const text = currentTimer === -1 ? ' ' : utils.formatSecondsToString(currentTimer);
 
   return (
     <Layout style={styles.container}>
       <Text style={styles.text} status={color}>
-        {utils.formatSecondsToString(currentTimer)}
+        {text}
       </Text>
       <Text status={color} category='s1'>
         TILL YOUR NEXT WASH

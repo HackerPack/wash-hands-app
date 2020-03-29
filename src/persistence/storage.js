@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-const HASH_WASH_HISTORY_KEY = 'handWashHistory';
+export const HASH_WASH_HISTORY_KEY = 'handWashHistory';
 
 export const storeData = async (key, value) => {
   try {

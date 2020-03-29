@@ -15,7 +15,7 @@ import Routes from './routes/index';
 import Loading from './components/UI/Loading';
 import HomeView from './components/HomeView'
 import WashingView from './components/WashingView';
-import timeConstants from './constants/timeConstants';
+import utils from './lib/utils';
 
 
 export const VIEWS = {
@@ -29,25 +29,25 @@ class App extends React.Component {
     super();
     this.state = {
       loading: true,
-      currentTimer: timeConstants.HOME_TIMER,
+      currentTimer: -1,
       currentView: VIEWS.HOME,
     };
   }
 
   async componentDidMount() {
     SplashScreen.hide();
-    this.setState({ loading: false });
+    const currentTimer = await utils.fetchCurrentHomeTimer();
+    this.setState({ loading: false , currentTimer});
 
-    BackgroundTimer.runBackgroundTimer(() => {
-      if (this.state.currentTimer > 0) {
-        this.setState(prevState => {
-          return {
-            loading: prevState.loading,
-            currentView: prevState.currentView,
-            currentTimer: prevState.currentTimer - 1,
-          };
-        });
-      }
+    BackgroundTimer.runBackgroundTimer(async () => {
+      const currentTimer = await utils.fetchCurrentHomeTimer();
+      this.setState(prevState => {
+        return {
+          loading: prevState.loading,
+          currentView: prevState.currentView,
+          currentTimer: currentTimer > 0 ? currentTimer : 0,
+        };
+      });
     },
     1000);
   }
@@ -61,9 +61,6 @@ class App extends React.Component {
     }
 
     const navigate = (currentView) => this.setState({currentView});
-    const resetTimer = () => this.setState({
-      currentTimer: timeConstants.HOME_TIMER,
-    });
 
     return (
       <Root>
@@ -78,7 +75,7 @@ class App extends React.Component {
                   />
                 }
                 {this.state.currentView === VIEWS.WASHING &&
-                  <WashingView navigate={navigate} resetTimer={resetTimer} />
+                  <WashingView navigate={navigate} />
                 }
               </Layout>
             </StyleProvider>
