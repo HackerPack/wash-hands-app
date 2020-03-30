@@ -5,6 +5,7 @@ import { Container, Content, H1 } from 'native-base';
 import { Text, Button, Layout } from '@ui-kitten/components';
 import HistoryList from './History/HistoryList';
 import Spacer from './UI/Spacer';
+import TodayScoreCard from './UI/TodayScoreCard';
 import * as Storage from '../persistence/storage';
 import {VIEWS} from '../index';
 
@@ -18,11 +19,9 @@ const styles = StyleSheet.create({
   },
   buttonGroup: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
   },
   button: {
     flex: 1,
-    margin: 8,
   },
 });
 
@@ -33,13 +32,25 @@ const extractTodaysTimeStamps = handWashEvents => {
       handWashEventDate => today === new Date(handWashEventDate.timestamp).toLocaleDateString(),
     );
 };
+const aggregateTimestamps = handWashHistory => {
+  return handWashHistory.reduce(function(map, item) {
+    const key = new Date(item.timestamp).toLocaleDateString();
+    if (map[key] == null) {
+      map[key] = [item];
+    } else {
+      map[key].push(item);
+    }
+    return map;
+}, {});
+};
 const ScoreView = ({ navigate }) => {
-  const [history, setHistory] = useState({ today: [], allHistory: [] });
+  const [history, setHistory] = useState({ today: null, allHistory: null });
 
   useEffect(() => {
     async function fetchHistoryData() {
       const handWashHistory = await Storage.fetchHandWashHistory();
       const todaysTimeStamps = extractTodaysTimeStamps(handWashHistory);
+      console.log(aggregateTimestamps(handWashHistory));
       setHistory(prevHistory => ({
         ...prevHistory,
         today: todaysTimeStamps,
@@ -48,15 +59,19 @@ const ScoreView = ({ navigate }) => {
     }
     fetchHistoryData();
   }, []);
+
+  if (history.today == null || history.allHistory == null) {
+    return null;
+  }
+
   return (
     <Container style={styles.container}>
       <Content padder style={styles.content}>
         <Spacer />
-        <H1>Score: </H1>
+        <TodayScoreCard handWashHistory={history.today}/>
         <Spacer size={10} />
-        <Text> this is a test payload </Text>
         <Layout style={styles.buttonGroup}>
-          <Button style={styles.button}>Share</Button>
+          <Button style={[styles.button, {marginRight: 12}]}>Share</Button>
           <Button
             style={styles.button}
             status='basic'
