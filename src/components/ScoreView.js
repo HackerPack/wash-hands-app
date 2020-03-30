@@ -33,7 +33,7 @@ const extractTodaysTimeStamps = handWashEvents => {
     );
 };
 const aggregateTimestamps = handWashHistory => {
-  return handWashHistory.reduce(function(map, item) {
+  return Object.entries(handWashHistory.reduce(function(map, item) {
     const key = new Date(item.timestamp).toLocaleDateString();
     if (map[key] == null) {
       map[key] = [item];
@@ -41,7 +41,15 @@ const aggregateTimestamps = handWashHistory => {
       map[key].push(item);
     }
     return map;
-}, {});
+  }, {})).map(entry => {return {'dateBucket': entry[0], 'value': entry[1]};});
+  // UNCOMMENT FOR TESTING
+  // return [
+  //   {dateBucket: '3/29/2020', value: [1,2,3]},
+  //   {dateBucket: '3/28/2020', value: [1,2]},
+  //   {dateBucket: '3/27/2020', value: [1,2,3,4,5,5]},
+  //   {dateBucket: '3/26/2020', value: [1,2,3]},
+  //   {dateBucket: '3/25/2020', value: [1,2,3]},
+  // ];
 };
 const ScoreView = ({ navigate }) => {
   const [history, setHistory] = useState({ today: null, allHistory: null });
@@ -50,11 +58,10 @@ const ScoreView = ({ navigate }) => {
     async function fetchHistoryData() {
       const handWashHistory = await Storage.fetchHandWashHistory();
       const todaysTimeStamps = extractTodaysTimeStamps(handWashHistory);
-      console.log(aggregateTimestamps(handWashHistory));
       setHistory(prevHistory => ({
         ...prevHistory,
         today: todaysTimeStamps,
-        allHistory: handWashHistory,
+        allHistory: aggregateTimestamps(handWashHistory),
       }));
     }
     fetchHistoryData();
@@ -80,12 +87,9 @@ const ScoreView = ({ navigate }) => {
             Back to Home
           </Button>
         </Layout>
-        <Spacer size={30} />
-        <H1 style={{}}>Today</H1>
+        <Spacer size={50} />
+        <H1>Past Scores</H1>
         <Spacer size={10} />
-        <HistoryList handWashHistory={history.today} onlyTime />
-        <Spacer size={30} />
-        <H1 style={{}}>All History</H1>
         <HistoryList handWashHistory={history.allHistory} />
       </Content>
     </Container>
