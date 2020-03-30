@@ -8,6 +8,8 @@ import Spacer from './UI/Spacer';
 import TodayScoreCard from './UI/TodayScoreCard';
 import * as Storage from '../persistence/storage';
 import {VIEWS} from '../index';
+import ViewShot from "react-native-view-shot";
+import Share from 'react-native-share';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,6 +55,7 @@ const aggregateTimestamps = handWashHistory => {
 };
 const ScoreView = ({ navigate }) => {
   const [history, setHistory] = useState({ today: null, allHistory: null });
+  const [screenshot, setScreenshot] = useState(null);
 
   useEffect(() => {
     async function fetchHistoryData() {
@@ -75,10 +78,19 @@ const ScoreView = ({ navigate }) => {
     <Container style={styles.container}>
       <Content padder style={styles.content}>
         <Spacer />
-        <TodayScoreCard handWashHistory={history.today}/>
+        <ViewShot onCapture={uri => setScreenshot(uri)} captureMode="mount">
+          <TodayScoreCard handWashHistory={history.today}/>
+        </ViewShot>
         <Spacer size={10} />
         <Layout style={styles.buttonGroup}>
-          <Button style={[styles.button, {marginRight: 12}]}>Share</Button>
+          <Button
+            style={[styles.button, {marginRight: 12}]}
+            onPress={() => {
+              Share.open({url: screenshot});
+            }}
+          >
+            Share
+          </Button>
           <Button
             style={styles.button}
             status='basic'

@@ -20,7 +20,6 @@ const HistoryList = ({ handWashHistory }) => {
       weekday: 'long'
     });
 
-    console.log(dateBucket);
     const title = `${value.length}` + ' times';
     const description = formattedDate.format(new Date(dateBucket));
     return <ListItem description={description} title={title}/>;
