@@ -1,28 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {StyleSheet} from 'react-native';
-import {Button, Layout} from '@ui-kitten/components';
+import { StyleSheet } from 'react-native';
+import { Button, Layout } from '@ui-kitten/components';
 import Spacer from './UI/Spacer';
 import HomeTimer from './UI/HomeTimer';
-import {VIEWS} from '../index';
+import { VIEWS } from '../index';
 
 const HomeView = ({ currentTimer, navigate }) => (
   <Layout style={styles.container}>
     <HomeTimer currentTimer={currentTimer} />
     <Layout style={styles.button}>
       <Button
-        size='giant'
-        status='success'
+        size="giant"
+        status="success"
         style={styles.washButton}
         onPress={() => navigate(VIEWS.WASHING)}
       >
         Wash!
       </Button>
-      <Button
-        size='giant'
-        status='basic'
-        onPress={() => navigate(VIEWS.SCORE)}
-      >
+      <Button size="giant" status="basic" onPress={() => navigate(VIEWS.SCORE)}>
         View Scores
       </Button>
     </Layout>
@@ -42,7 +38,7 @@ const styles = StyleSheet.create({
   },
   washButton: {
     marginBottom: 40,
-  }
+  },
 });
 
 HomeView.propTypes = {

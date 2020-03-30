@@ -7,7 +7,7 @@ import HistoryList from './History/HistoryList';
 import Spacer from './UI/Spacer';
 import TodayScoreCard from './UI/TodayScoreCard';
 import * as Storage from '../persistence/storage';
-import {VIEWS} from '../index';
+import { VIEWS } from '../index';
 
 const styles = StyleSheet.create({
   container: {
@@ -27,21 +27,24 @@ const styles = StyleSheet.create({
 
 const extractTodaysTimeStamps = handWashEvents => {
   const today = new Date().toLocaleDateString();
-  return handWashEvents
-    .filter(
-      handWashEventDate => today === new Date(handWashEventDate.timestamp).toLocaleDateString(),
-    );
+  return handWashEvents.filter(
+    handWashEventDate => today === new Date(handWashEventDate.timestamp).toLocaleDateString(),
+  );
 };
 const aggregateTimestamps = handWashHistory => {
-  return Object.entries(handWashHistory.reduce(function(map, item) {
-    const key = new Date(item.timestamp).toLocaleDateString();
-    if (map[key] == null) {
-      map[key] = [item];
-    } else {
-      map[key].push(item);
-    }
-    return map;
-  }, {})).map(entry => {return {'dateBucket': entry[0], 'value': entry[1]};});
+  return Object.entries(
+    handWashHistory.reduce(function(map, item) {
+      const key = new Date(item.timestamp).toLocaleDateString();
+      if (map[key] == null) {
+        map[key] = [item];
+      } else {
+        map[key].push(item);
+      }
+      return map;
+    }, {}),
+  ).map(entry => {
+    return { dateBucket: entry[0], value: entry[1] };
+  });
   // UNCOMMENT FOR TESTING
   // return [
   //   {dateBucket: '3/29/2020', value: [1,2,3]},
@@ -75,15 +78,11 @@ const ScoreView = ({ navigate }) => {
     <Container style={styles.container}>
       <Content padder style={styles.content}>
         <Spacer />
-        <TodayScoreCard handWashHistory={history.today}/>
+        <TodayScoreCard handWashHistory={history.today} />
         <Spacer size={10} />
         <Layout style={styles.buttonGroup}>
-          <Button style={[styles.button, {marginRight: 12}]}>Share</Button>
-          <Button
-            style={styles.button}
-            status='basic'
-            onPress={() => navigate(VIEWS.HOME)}
-          >
+          <Button style={[styles.button, { marginRight: 12 }]}>Share</Button>
+          <Button style={styles.button} status="basic" onPress={() => navigate(VIEWS.HOME)}>
             Back to Home
           </Button>
         </Layout>
