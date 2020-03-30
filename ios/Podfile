@@ -40,6 +40,8 @@ target 'ReactNativeStarterKit' do
 
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
+  pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
+
   target 'ReactNativeStarterKitTests' do
     inherit! :search_paths
     # Pods for testing

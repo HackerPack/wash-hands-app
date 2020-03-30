@@ -181,6 +181,7 @@ android {
 dependencies {
     implementation project(':react-native-share')
     implementation project(':react-native-view-shot')
+    implementation project(':react-native-push-notification')
     implementation project(':react-native-svg')
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'

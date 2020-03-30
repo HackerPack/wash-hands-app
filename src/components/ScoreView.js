@@ -29,21 +29,24 @@ const styles = StyleSheet.create({
 
 const extractTodaysTimeStamps = handWashEvents => {
   const today = new Date().toLocaleDateString();
-  return handWashEvents
-    .filter(
-      handWashEventDate => today === new Date(handWashEventDate.timestamp).toLocaleDateString(),
-    );
+  return handWashEvents.filter(
+    handWashEventDate => today === new Date(handWashEventDate.timestamp).toLocaleDateString(),
+  );
 };
 const aggregateTimestamps = handWashHistory => {
-  return Object.entries(handWashHistory.reduce(function(map, item) {
-    const key = new Date(item.timestamp).toLocaleDateString();
-    if (map[key] == null) {
-      map[key] = [item];
-    } else {
-      map[key].push(item);
-    }
-    return map;
-  }, {})).map(entry => {return {'dateBucket': entry[0], 'value': entry[1]};});
+  return Object.entries(
+    handWashHistory.reduce(function(map, item) {
+      const key = new Date(item.timestamp).toLocaleDateString();
+      if (map[key] == null) {
+        map[key] = [item];
+      } else {
+        map[key].push(item);
+      }
+      return map;
+    }, {}),
+  ).map(entry => {
+    return { dateBucket: entry[0], value: entry[1] };
+  });
   // UNCOMMENT FOR TESTING
   // return [
   //   {dateBucket: '3/29/2020', value: [1,2,3]},
